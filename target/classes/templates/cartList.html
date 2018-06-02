@@ -128,7 +128,7 @@
 
         $(function () {
             $('#myTable').bootstrapTable({
-                url: '/cart/getCartList',
+                url: '/cart/getCartList?userId='+$("#userId").val(),
                 pagination: true,
                 onLoadSuccess: function (data) { //加载成功时执行
                     console.log(data);
