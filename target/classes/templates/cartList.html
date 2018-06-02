@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>cartlist page</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-editable.css">
+</head>
+<body>
+    <div class="container">
+        <input type="hidden" id="username" th:value="${username}">
+        <input type="hidden" id="fundId">
+        <input type="hidden" id="userId" th:value="${userid}">
+        <button class="btn">查询已购基金</button>
+        <button class="btn" id="myCart">查看我的购物车</button>
+
+        <br>
+        <table id="myTable"></table>
+    </div>
+
+    <div class="modal fade" id="roleModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="chapterListUpload"></h4>
+                </div>
+                <div class="modal-body">
+                    <form enctype="multipart/form-data" class="form-horizontal" role="form" id="roleForm">
+                        <input type="hidden" name="userId2" id="userId2">
+                        <div class="form-group">
+                            <label for="input03" class="col-sm-2 control-label">用户名：</label>
+                            <div class="col-sm-10">
+                                <span id="input03"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input04" class="col-sm-2 control-label">基金名称：</label>
+                            <div class="col-sm-10">
+                                <span id="input04"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input05" class="col-sm-2 control-label">剩余金额：</label>
+                            <div class="col-sm-10">
+                                <span id="input05"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input06" class="col-sm-2 control-label">购买金额：</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="sex" id="input06">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary"  onClick="roleSubmit();">确认购买</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/bootstrap-table.min.js"></script>
+    <script src="/js/bootstrap-table-zh-CN.min.js"></script>
+    <script src="/js/bootstrap-editable.min.js"></script>
+    <script src="/js/bootstrap-table-editable.min.js"></script>
+    <script>
+            function roleSubmit(){
+                var id = $("#FormRoleId").val();
+                // ==0 添加
+                    var url = "/base/buyFund";
+                    var data = {
+                        userId:$("#userId").val(),
+                        fundId:$("#fundId").val(),
+                        count:$("#input06").val()
+                    };
+                    console.log(data);
+                    var callback = function(obj){
+                        location = "/base/toList?username="+$("#username").val();
+                    };
+                    $.post(url,data,callback,"text");
+
+                    // !=0 修改
+            }
+
+            function operateFormatter(value, row, index) {
+                return [
+                    '<button type="button" class="ButtonA btn btn-default  btn-sm" style="margin-right:15px;">删除此商品</button>',
+                    '<button type="button" class="ButtonB btn btn-default  btn-sm" style="margin-right:15px;">加入收藏夹</button>',
+                ].join('');
+            };
+            window.operateEvents = {
+                'click .ButtonA': function (e, value, row, index) {
+                    var url = "/cart/deleteCartItem";
+                    var data = {
+                        mid :row.money.mid,
+                        userId:$("#userId").val()
+                    };
+                    var callback = function (obj) {
+                        if ( obj == "success" ) {
+                            alert("删除成功");
+                        } else {
+                            alert("删除失败");
+                        }
+                    }
+                    $.post(url,data,callback,"text");
+                },
+                'click .ButtonB': function (e, value, row, index) {
+//                    var url = "";
+//                    var callback = function(obj) {
+//                        console.log(obj);
+//                    }
+//                    $.post(url,callback,"json");
+                    alert("加入收藏夹成功");
+                }
+            };
+
+
+        $(function () {
+            $('#myTable').bootstrapTable({
+                url: '/cart/getCartList',
+                pagination: true,
+                onLoadSuccess: function (data) { //加载成功时执行
+                    console.log(data);
+                },
+                pageNumber: 1,
+                    pageSize: 5,
+                    pageList: [ 5, 10,20],
+                columns: [{
+                        field: 'money.mid',
+                title: '基金编号'
+            },{
+                field: 'money.name',
+                title: '基金名称'
+            },{
+                field: 'money.sum',
+                title: '发行金额'
+            },{
+                field: 'money.surplus',
+                title: '剩余金额'
+            },{
+                field: 'money.date',
+                title: '发行时间'
+            },{
+                field: 'number',
+                title: '数量',
+                editable: {
+                    type: 'text',
+                    title: '商品数量',
+                    validate: function (v) {
+                        if (isNaN(v)) return '商品数量必须是数字';
+                        var age = parseInt(v);
+                        if (age <= 1) return '至少需要一个商品';
+                    }
+                }
+            },{
+                field: 'operate',
+                title: '操作',
+                width: '80px',
+                events: operateEvents,
+                formatter: operateFormatter
+            }, ],
+            onEditableSave: function (field, row, oldValue, $el) {
+                $.ajax({
+                    type: "post",
+                    url: "/cart/editNum",
+                    data: {
+                        mid:row.money.mid,
+                        num:row.number,
+                        userId:$("#userId").val()
+                    },
+                    dataType: 'text',
+                    success: function (obj) {
+                        if (obj == "success") {
+                            alert('提交数据成功');
+                        }
+                    },
+                    error: function () {
+                        alert('编辑失败');
+                    },
+                    complete: function () {
+
+                    }
+
+                });
+            }
+            });
+        })
+    </script>
+
+    <script>
+        // 跳转到购物车
+        $(function () {
+            $("#myCart").click(function () {
+                location = "/base/toCartList?username="+$("#username").val();
+            });
+        })
+    </script>
+</body>
+</html>

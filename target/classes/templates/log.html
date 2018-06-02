@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+</head>
+<body>
+    <div class="container">
+        <form class="form-horizontal" id="logForm">
+            <fieldset>
+                <legend>登陆</legend>
+                <div class="control-group">
+                    <label class="control-label" for="username">用户名</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" name="name" id="username">
+                        <p class="help-block">请输入您的用户名</p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input02">密码</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="input02" name="pwd">
+                        <p class="help-block">请输入您的密码</p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <button type="button" id="log" class="btn">登陆</button>
+                    <button type="button" id="register" class="btn">注册</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="modal fade" id="roleModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="chapterListUpload"></h4>
+                </div>
+                <div class="modal-body">
+                    <form enctype="multipart/form-data" class="form-horizontal" role="form" id="roleForm">
+                        <input type="hidden" name="FormRoleId" id="FormRoleId">
+                        <div class="form-group">
+                            <label for="input03" class="col-sm-2 control-label">名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="name" id="input03">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input04" class="col-sm-2 control-label">密码</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="pwd" id="input04">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input05" class="col-sm-2 control-label">性别</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="sex" id="input05">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary"  onClick="roleSubmit();">确认注册</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script>
+        function roleSubmit(){
+            var url = "/base/register";
+            var data = $("#roleForm").serialize();
+            var callback = function (obj) {
+                    $("#roleModel").modal("hide");
+                if (obj.result == "true") {
+                    alert("success");
+                    console.log("success");
+                } else {
+                    console.log("error");
+                    alert("失败,因为"+obj.describe);
+                }
+            }
+            $.post(url,data,callback,"json");
+        };
+        $(function () {
+            $("#roleModel").modal("hide");
+            $("#register").click(function () {
+                $("#roleModel").modal("show");
+            });
+            $("#log").click(function(){
+               var url = "/base/log";
+               var data = $("#logForm").serialize();
+               var callback = function (obj) {
+                   if (obj.result == "true") {
+                       location = "/base/toList?username="+$("#username").val();
+                   } else {
+                       alert("登陆失败,因为"+obj.describe);
+                   }
+               }
+               $.post(url,data,callback,"json");
+            });
+        })
+    </script>
+</body>
+</html>

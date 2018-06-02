@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tb.fund.mapper.CartMapper" >
+  <select id="getItemsByUserId" resultType="Map">
+    SELECT item_id itemId,cart_number cartNumber
+    FROM tb_cart
+    WHERE user_id = #{userId}
+  </select>
+  <insert id="insertCart" >
+    INSERT INTO tb_cart (user_id,item_id,cart_number)
+    VALUES
+    <foreach collection="list" item="cart" separator="," index="" open="" close="">
+      (#{userId},#{cart.money.mid},#{cart.number})
+    </foreach>
+  </insert>
+  <delete id="emptyCartByUserId">
+    DELETE FROM tb_cart
+    WHERE user_id = #{userId}
+  </delete>
+</mapper>

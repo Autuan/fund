@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+    <hr>
+    <span>例子1</span><br>
+    <input type="radio" name="sex" th:checked="${sex eq '男' ? 'checked' : '' } ">男
+    <input type="radio" name="sex" th:checked="${sex eq '女' ? 'checked' : '' }" >女
+    <hr>
+    <span>例子2</span><br>
+    <input type="radio" name="sex2" th:checked="${sex eq '男'} ? 'checked' : '' ">男
+    <input type="radio" name="sex2" th:checked="${sex eq '女'} ? 'checked' : '' " >女
+    <hr>
+    <span>例子3</span><br>
+    <input type="radio" name="sex3" th:checked="${sex == '男' ? 'checked' : '' } ">男
+    <input type="radio" name="sex3" th:checked="${sex == '女' ? 'checked' : '' }" >女
+    <hr>
+    <span>例子4</span><br>
+    <input type="radio" name="sex4" th:checked="${sex == '男'} ? 'checked' : ''">男
+    <input type="radio" name="sex4" th:checked="${sex == '女'} ? 'checked' : ''">女
+    <hr>
+    <span>例子5</span><br>
+    <input type="radio" name="sex5" th:checked="${sex == '男'} ? 'true' : '' ">男
+    <input type="radio" name="sex5" th:checked="${sex == '女'} ? 'true' : '' " >女
+    <hr>
+    <span>例子6</span><br>
+    <input type="radio" name="sex6" th:checked="${sex} == '男'?'true':'' ">男
+    <input type="radio" name="sex6" th:checked="${sex} == '女'?'true':'' " >女
+    <hr>
+    <span>例子7</span><br>
+    <input type="radio" name="sex7" th:checked="${sex == '男'}">男
+    <input type="radio" name="sex7" th:checked="${sex == '女'}">女
+    <hr>
+
+    <input type="text" th:value="${sex}">
+    <input type="text" th:value="${sex == '男'}">
+    <input type="text" th:value="${sex == '女'}">
+    <input type="text" th:value="${sex == '女'} ? '是女': '不是女'">
+
+</body>
+</html>
