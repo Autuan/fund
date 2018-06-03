@@ -4,8 +4,8 @@ import com.tb.fund.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-@Mapper
 @Repository
+@Mapper
 public interface UserMapper {
     int deleteByPrimaryKey(Integer uid);
 
@@ -18,8 +18,4 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
-
-    User selectByNameAndPwd(User user);
-
-    Integer checkName(String name);
 }

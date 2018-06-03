@@ -1,78 +1,234 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tb.fund.mapper.LinkMapper" >
-  <resultMap id="BaseResultMap" type="com.tb.fund.entity.Link" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="uid" property="uid" jdbcType="INTEGER" />
-    <result column="mid" property="mid" jdbcType="INTEGER" />
-    <result column="buy_sum" property="buySum" jdbcType="INTEGER" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tb.fund.mapper.LinkMapper">
+  <resultMap id="BaseResultMap" type="com.tb.fund.entity.Link">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="mid" jdbcType="INTEGER" property="mid" />
+    <result column="buy_sum" jdbcType="INTEGER" property="buySum" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     id, uid, mid, buy_sum
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from tb_link
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_link
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.tb.fund.entity.Link" >
+  <insert id="insert" parameterType="com.tb.fund.entity.Link">
     insert into tb_link (id, uid, mid, 
       buy_sum)
     values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{mid,jdbcType=INTEGER}, 
       #{buySum,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.tb.fund.entity.Link" >
+  <insert id="insertSelective" parameterType="com.tb.fund.entity.Link">
     insert into tb_link
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="uid != null" >
+      <if test="uid != null">
         uid,
       </if>
-      <if test="mid != null" >
+      <if test="mid != null">
         mid,
       </if>
-      <if test="buySum != null" >
+      <if test="buySum != null">
         buy_sum,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="uid != null" >
+      <if test="uid != null">
         #{uid,jdbcType=INTEGER},
       </if>
-      <if test="mid != null" >
+      <if test="mid != null">
         #{mid,jdbcType=INTEGER},
       </if>
-      <if test="buySum != null" >
+      <if test="buySum != null">
         #{buySum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tb.fund.entity.Link" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.tb.fund.entity.Link">
     update tb_link
-    <set >
-      <if test="uid != null" >
+    <set>
+      <if test="uid != null">
         uid = #{uid,jdbcType=INTEGER},
       </if>
-      <if test="mid != null" >
+      <if test="mid != null">
         mid = #{mid,jdbcType=INTEGER},
       </if>
-      <if test="buySum != null" >
+      <if test="buySum != null">
         buy_sum = #{buySum,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tb.fund.entity.Link" >
+  <update id="updateByPrimaryKey" parameterType="com.tb.fund.entity.Link">
+    update tb_link
+    set uid = #{uid,jdbcType=INTEGER},
+      mid = #{mid,jdbcType=INTEGER},
+      buy_sum = #{buySum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.tb.fund.entity.Link">
+    <id column="seckill_id" jdbcType="BIGINT" property="seckillId" />
+    <id column="user_phone" jdbcType="BIGINT" property="userPhone" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    seckill_id, user_phone, state, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.tb.fund.entity.LinkKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from success_killed
+    where seckill_id = #{seckillId,jdbcType=BIGINT}
+      and user_phone = #{userPhone,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.tb.fund.entity.LinkKey">
+    delete from success_killed
+    where seckill_id = #{seckillId,jdbcType=BIGINT}
+      and user_phone = #{userPhone,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tb.fund.entity.Link">
+    insert into success_killed (seckill_id, user_phone, state, 
+      create_time)
+    values (#{seckillId,jdbcType=BIGINT}, #{userPhone,jdbcType=BIGINT}, #{state,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tb.fund.entity.Link">
+    insert into success_killed
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seckillId != null">
+        seckill_id,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seckillId != null">
+        #{seckillId,jdbcType=BIGINT},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tb.fund.entity.Link">
+    update success_killed
+    <set>
+      <if test="state != null">
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where seckill_id = #{seckillId,jdbcType=BIGINT}
+      and user_phone = #{userPhone,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tb.fund.entity.Link">
+    update success_killed
+    set state = #{state,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where seckill_id = #{seckillId,jdbcType=BIGINT}
+      and user_phone = #{userPhone,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="com.tb.fund.entity.Link">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="mid" jdbcType="INTEGER" property="mid" />
+    <result column="buy_sum" jdbcType="INTEGER" property="buySum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, uid, mid, buy_sum
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_link
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_link
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tb.fund.entity.Link">
+    insert into tb_link (id, uid, mid, 
+      buy_sum)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{mid,jdbcType=INTEGER}, 
+      #{buySum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tb.fund.entity.Link">
+    insert into tb_link
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="mid != null">
+        mid,
+      </if>
+      <if test="buySum != null">
+        buy_sum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null">
+        #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="buySum != null">
+        #{buySum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tb.fund.entity.Link">
+    update tb_link
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null">
+        mid = #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="buySum != null">
+        buy_sum = #{buySum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tb.fund.entity.Link">
     update tb_link
     set uid = #{uid,jdbcType=INTEGER},
       mid = #{mid,jdbcType=INTEGER},
