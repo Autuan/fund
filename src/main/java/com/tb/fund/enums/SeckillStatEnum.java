@@ -1,5 +1,8 @@
 package com.tb.fund.enums;
 
+/**
+ * enums 枚举
+ */
 public enum SeckillStatEnum {
     SUCCESS(1, "秒杀成功"),
     END(0, "秒杀结束"),
